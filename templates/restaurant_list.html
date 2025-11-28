@@ -1,15 +1,25 @@
 {% extends "base.html" %}
 {% block title %}店舗一覧{% endblock %}
 
+<body>
 {% block main %}
    <h1>店舗一覧</h1>
-   {% for object in object_list %}
-   <P>
-    <a href="/items/{{object.id}}">
-        {{object.name}}<br>
-        {{object.price}}
-    </a>
-   </P>
-   {% endfor %}
+   <table border="1">
+       <thead>
+           <tr>
+               <th>画像</th>
+               <th>店舗名</th>
+               <th>価格</th>
+           </tr>
+       </thead>
+       {% for restaurant in object_list %}
+       <tr>
+           <td><img src="{{ restaurant.img.url }}" style="width:100px height:auto;"></td>
+           <td>{{ restaurant.name }}</td>
+           <td>{{ restaurant.price }} </td>
+       </tr>
+       {% endfor %}
+    </table>
 {% endblock %}
+</body>
 </html>
