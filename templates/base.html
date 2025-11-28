@@ -5,30 +5,35 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>tabelog</title>
+  <title>{% block title %}{% endblock %}</title>
   <!-- Bootstrap 4.5.0 -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
     integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 </head>
  
 <body>
-  <header>
-    {% block header %}
-    {% include 'snippets/header.html' %}
-    {% endblock %}
-  </header>
+<header>
+  <div class="py-1 bg-dark ">
+   <nav class="container d-flex flex-column flex-md-row justify-content-between">
+    <a class="py-2 text-white" href="/">Tabelog</a>
+    <a class="py-2 d-none d-md-inline-block text-white" href="/orders/">Orders</a>
+    <a class="py-2 d-none d-md-inline-block text-white" href="/profile/">Profile</a>
+    <a class="py-2 d-none d-md-inline-block text-white" href="/account/">Account</a>
+    <a class="py-2 d-none d-md-inline-block text-white" href="/cart/">Cart</a>
+   </nav>
+  </div>
+</header>
  
-  <main>
-    {% block main %}
-    {% endblock %}
-  </main>
+<main>
+  {% block main %}
+  {% endblock %}
+</main>
  
   <footer>
-    {% block footer %}
-    {% include 'snippets/footer.html' %}
-    {% endblock %}
-  </footer>
- 
-</body>
- 
-</html>
+    <div class="container w-100 bg-dark text-white py-4" style="max-width: 100%;">
+    <div class="row mt-5 mx-5">
+    <div class="col-12 col-md">
+      <h5>Tabelog</h5>
+      <small class="d-block mb-3 text-muted">&copy; 2017-2021</small>
+    </div>
+    

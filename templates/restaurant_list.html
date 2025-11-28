@@ -1,26 +1,15 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>店舗一覧</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}店舗一覧{% endblock %}
+
+{% block main %}
    <h1>店舗一覧</h1>
-   <table border="1">
-       <thead>
-           <tr>
-               <th>店名</th>
-               <th>価格</th>
-           </tr>
-       </thead>
-       {% for restaurant in object_list %}
-       <tr>
-           <td>{{ restaurant.name }}</td>
-           <td>{{ restaurant.price }} 円</td>
-       </tr>
-       {% endfor %}
-   </table>
-</body>
+   {% for object in object_list %}
+   <P>
+    <a href="/items/{{object.id}}">
+        {{object.name}}<br>
+        {{object.price}}
+    </a>
+   </P>
+   {% endfor %}
+{% endblock %}
 </html>

@@ -20,5 +20,5 @@ from crud import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('crud/',views.RestaurantListView.as_view(),name="list"),
+    path('',views.RestaurantListView.as_view(),name="list"),
 ]
