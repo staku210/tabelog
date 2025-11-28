@@ -4,22 +4,11 @@
 <body>
 {% block main %}
    <h1>店舗一覧</h1>
-   <table border="1">
-       <thead>
-           <tr>
-               <th>画像</th>
-               <th>店舗名</th>
-               <th>価格</th>
-           </tr>
-       </thead>
-       {% for restaurant in object_list %}
-       <tr>
-           <td><img src="{{ restaurant.img.url }}" style="width:100px height:auto;"></td>
-           <td>{{ restaurant.name }}</td>
-           <td>{{ restaurant.price }} </td>
-       </tr>
-       {% endfor %}
-    </table>
+   {% for restaurant in object_list %}
+   <p>{{ restaurant.name }}</p>
+   <img src="{{ restaurant.img.url }}" style="width:100px height:100px;">
+   <p>{{ restaurant.price }}</p>
+   {% endfor %}
 {% endblock %}
 </body>
 </html>
