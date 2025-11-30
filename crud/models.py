@@ -12,7 +12,7 @@ class Restaurant(models.Model):
   price=models.CharField(max_length=200)
   address=models.CharField(max_length=200)
   img=models.ImageField(blank=True,default='noImage.png')
-  category=models.ForeignKey(Category,on_delete=models.CASCADE)
+  category=models.ForeignKey(Category,on_delete=models.CASCADE,related_name='restaurants')
 
   def __str__(self):
     return self.name

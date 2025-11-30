@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}{{ category.name }}一覧{% endblock %}
+
+<body>
+  {% block main %}
+  <h1>{{ category.name }}一覧</h1>
+  {% for restaurant in restaurants %}
+  <p>{{ restaurant.name }}</p>
+  <p>{{ restaurant.price }}</p>
+  <img src="{{ restaurant.img.url }}" style="width:100px height:100px;">
+  {% endfor %}
+  {% endblock %}
+</body>

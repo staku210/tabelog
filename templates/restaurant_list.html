@@ -12,6 +12,13 @@
    <button class="btn btn-success" onclick="location.href=''">レビュー</button>
    <button class="btn btn-success" onclick="location.href=''">予約</button>
    {% endfor %}
+   <br>
+
+   {% for category in categories %}
+   <a href="{% url 'category' category.id %}">
+      {{ category.name }}
+   </a><br>
+   {% endfor %}
 {% endblock %}
 </body>
 </html>
