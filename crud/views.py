@@ -2,7 +2,8 @@ from django.shortcuts import render,get_object_or_404,redirect
 from django.views.generic import ListView,DetailView
 from .models import Restaurant,Category
 from django.contrib.auth import authenticate,login,logout
-from .forms import SignupForm,LoginForm
+from .forms import SignupForm,LoginForm,ReviewForm
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 class RestaurantListView(ListView):
@@ -18,6 +19,13 @@ class RestaurantDetailView(DetailView):
   model=Restaurant
   template_name="restaurant_detail.html"
 
+  def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        restaurant = self.get_object()
+
+        context['reviews'] = restaurant.reviews.all()
+        context['form'] = ReviewForm()
+        return context
 
 def category(request,category_id):
   category=get_object_or_404(Category,id=category_id)
@@ -54,3 +62,25 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('/')
+
+@login_required
+def restaurant_review(request,restaurant_id):
+     restaurant=get_object_or_404(Restaurant,id=restaurant_id)
+     reviews=restaurant.reviews.all()
+
+     if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.restaurant = restaurant
+            review.user = request.user
+            review.save()
+            return redirect('restaurant_detail', restaurant_id=restaurant.id)
+     else:
+        form = ReviewForm()
+
+     return render(request, 'restaurant_detail.html', {
+        'restaurant': restaurant,
+        'reviews': reviews,
+        'form': form,
+    })

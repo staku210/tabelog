@@ -9,6 +9,26 @@
   <p>{{ restaurant.price }}</p>
   <P>{{ restaurant.address }}</P>
   <p>{{ restaurant.category }}</p>
+
+  <h2>レビュー</h2>
+  <ul>
+    {% for review in reviews %}
+        <li>
+            <strong>{{ review.user.username }}</strong> (評価: {{ review.rating }})<br>
+            {{ review.comment }}<br>
+            <small>{{ review.created_at }}</small>
+        </li>
+    {% empty %}
+        <li>レビューはまだありません。</li>
+    {% endfor %}
+  </ul>
+
+  <h3>レビューを投稿</h3>
+  <form method="post" action="{% url 'review' restaurant.id %}">
+     {% csrf_token %}
+     {{ form.as_p }}
+     <button type="submit">送信</button>
+  </form>
   <a href="{% url 'list' %}">戻る</a>
   {% endblock %}
 </body>

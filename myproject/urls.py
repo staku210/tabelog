@@ -26,6 +26,7 @@ urlpatterns = [
     path('detail/<int:pk>/',views.RestaurantDetailView.as_view(),name='detail'),
     path('category/<int:category_id>',views.category,name='category'),
     path('accounts/',include('crud.urls')),
+    path('review/<int:restaurant_id>/', views.restaurant_review, name='review')
 ]
 
 if settings.DEBUG:
