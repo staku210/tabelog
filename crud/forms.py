@@ -43,3 +43,6 @@ class ReservationForm(forms.ModelForm):
                 'placeholder': '例: 2'
             }),
         }
+
+class SearchForm(forms.Form):
+    query=forms.CharField(label='検索',max_length=100,required=False)

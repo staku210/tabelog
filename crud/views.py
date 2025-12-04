@@ -2,8 +2,9 @@ from django.shortcuts import render,get_object_or_404,redirect
 from django.views.generic import ListView,DetailView
 from .models import Restaurant,Category
 from django.contrib.auth import authenticate,login,logout
-from .forms import SignupForm,LoginForm,ReviewForm,ReservationForm
+from .forms import SignupForm,LoginForm,ReviewForm,ReservationForm,SearchForm
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 # Create your views here.
 class RestaurantListView(ListView):
@@ -103,3 +104,21 @@ def reservation(request,restaurant_id):
 
 def reservation_success(request):
     return render(request, 'reservation_success.html')
+
+def search_view(request):
+    form = SearchForm(request.GET or None)
+    query = ''
+    results = Restaurant.objects.none()
+
+    if form.is_valid():
+        query = form.cleaned_data['query']
+        results = Restaurant.objects.filter(
+            Q(name__icontains=query)|
+            Q(category__name__icontains=query)
+        )
+
+    return render(request, 'search.html', {
+        'form': form,
+        'query': query,
+        'results': results,
+    })

@@ -29,6 +29,7 @@ urlpatterns = [
     path('review/<int:restaurant_id>/', views.restaurant_review, name='review'),
     path('reservation/<int:restaurant_id>/',views.reservation,name='reservation'),
     path('reservation-success/',views.reservation_success,name='reservation_success'),
+    path('search/',views.search_view,name='search')
 ]
 
 if settings.DEBUG:

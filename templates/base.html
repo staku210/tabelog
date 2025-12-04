@@ -16,6 +16,13 @@
   <div class="py-1 bg-dark ">
    <nav class="container d-flex flex-column flex-md-row justify-content-between">
     <a class="py-2 text-white" href="{% url 'list' %}">Tabelog</a>
+
+    <!--検索部分-->
+    <form class="form-inline my-2 my-lg-0" method="get" action="{% url 'search' %}">
+     <input class="form-control mr-sm-2" type="search" name="query" placeholder="検索" aria-label="Search">
+     <button class="btn btn-outline-light my-2 my-sm-0" type="submit">検索</button>
+    </form>
+
     {% if user.is_authenticated %}
      <a class="py-2 d-none d-md-inline-block text-white" href="{% url 'logout' %}">ログアウト</a>
     {% else %}

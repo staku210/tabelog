@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}検索結果{% endblock %}
+
+<body>
+  {% block main %}
+
+  <h1>「{{ query }}」の検索結果</h1>
+
+  {% for restaurant in results %}
+  <p>{{ restaurant.name }}<p>
+  <p>{{ restaurant.price }}</p>
+  <img src="{{ restaurant.img.url }}" style="width:100px height:100px;">
+  <button class="btn btn-success" onclick="location.href='{% url 'detail' pk=restaurant.pk %}'">詳細</button>
+  <button class="btn btn-success" onclick="location.href='{% url 'reservation' restaurant_id=restaurant.pk %}'">予約</button>
+  {% empty %}
+  <p>該当する検索結果がありませんでした。</p>
+  {% endfor %}
+  <a href="{% url 'list' %}">戻る</a>
+  {% endblock %}
+</body>
