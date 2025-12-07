@@ -1,10 +1,11 @@
 from django.shortcuts import render,get_object_or_404,redirect
-from django.views.generic import ListView,DetailView
+from django.views.generic import ListView,DetailView,DeleteView
 from .models import Restaurant,Category,Favorite,Reservation
 from django.contrib.auth import authenticate,login,logout
 from .forms import SignupForm,LoginForm,ReviewForm,ReservationForm,SearchForm
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from django.urls import reverse_lazy
 
 # Create your views here.
 class RestaurantListView(ListView):
@@ -120,6 +121,15 @@ def reservation(request,restaurant_id):
 
 def reservation_success(request):
     return render(request, 'reservation_success.html')
+
+class ReservationDeleteView(DeleteView):
+    model=Reservation
+    template_name='reservation_delete.html'
+    success_url=reverse_lazy('account') #キャンセル後にアカウントページに戻る
+
+    def get_queryset(self):
+        #自分の予約しか削除できないようにする
+        return Reservation.objects.filter(user=self.request.user)
 
 
 def search_view(request):

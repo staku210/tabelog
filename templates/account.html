@@ -13,6 +13,7 @@
     <p>日付：{{ reservation.date }}</p>
     <p>時間：{{ reservation.time }}</p>
     <p>人数：{{ reservation.number_of_people }}</p>
+    <a href="{% url 'reservation_delete' reservation.pk %}" class="btn btn-danger">キャンセル</a>
   </div>
 {% empty %}
   <p>予約履歴はありません。</p>

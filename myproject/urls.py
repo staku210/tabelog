@@ -31,7 +31,8 @@ urlpatterns = [
     path('reservation-success/',views.reservation_success,name='reservation_success'),
     path('search/',views.search_view,name='search'),
     path('favorite/<int:restaurant_id>/',views.toggle_favorite,name='favorite'),
-    path('account/',views.account_view,name='account')
+    path('account/',views.account_view,name='account'),
+    path('reservation/<int:pk>/delete/',views.ReservationDeleteView.as_view(),name="reservation_delete"),
 ]
 
 if settings.DEBUG:

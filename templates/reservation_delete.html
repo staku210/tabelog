@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}予約キャンセル{% endblock %}
+
+{% block main %}
+<h2>本当にこの予約をキャンセルしますか？</h2>
+<p>店舗名：{{ object.restaurant.name }}</p>
+<p>日付：{{ object.date }}</p>
+<p>時間：{{ object.time }}</p>
+<p>人数：{{ object.number_of_people }}</p>
+
+<form method="post">{% csrf_token %}
+    <button type="submit" class="btn btn-danger">キャンセルする</button>
+    <a href="{% url 'account' %}" class="btn btn-secondary">戻る</a>
+</form>
+{% endblock %}
