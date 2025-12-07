@@ -1,6 +1,6 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from django.views.generic import ListView,DetailView
-from .models import Restaurant,Category,Favorite
+from .models import Restaurant,Category,Favorite,Reservation
 from django.contrib.auth import authenticate,login,logout
 from .forms import SignupForm,LoginForm,ReviewForm,ReservationForm,SearchForm
 from django.contrib.auth.decorators import login_required
@@ -155,9 +155,9 @@ def toggle_favorite(request, restaurant_id):
 def account_view(request):
     user=request.user
     favorite=Favorite.objects.filter(user=user).select_related('restaurant')
-
-    context={
-        'user':user,
-        'favorite':favorite,
-    }
-    return render(request,'account.html',context)
+    reservation=Reservation.objects.filter(user=user).select_related('restaurant')
+    return render(request, 'account.html', {
+        'user': user,
+        'favorites': favorite,
+        'reservations': reservation,
+    })

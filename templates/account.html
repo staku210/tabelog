@@ -2,21 +2,32 @@
 {% block title %}アカウント情報{% endblock %}
 
 {% block main %}
-<h1>アカウント情報</h1>
+<h2>アカウント情報</h2>
 <p>ユーザー名： {{ user.name }}</p>
 <p>メールアドレス： {{ user.email }}</p>
 
-<h2>お気に入り登録した店舗</h2>
-<ul>
-  {% for favorite in favorite %}
-    <li>{{ favorite.restaurant.name }}</li>
-    <li>
-      <img src="{{ favorite.restaurant.img.url }}" style="width:100px height:100px;">
-    </li>
-  {% empty %}
-    <li>お気に入り店舗はありません。</li>
-  {% endfor %}
-</ul>
+<h2>予約履歴一覧</h2>
+{% for reservation in reservations %}
+  <div style="margin-bottom: 10px;">
+    <p>店舗名：{{ reservation.restaurant.name }}</p>
+    <p>日付：{{ reservation.date }}</p>
+    <p>時間：{{ reservation.time }}</p>
+    <p>人数：{{ reservation.number_of_people }}</p>
+  </div>
+{% empty %}
+  <p>予約履歴はありません。</p>
+{% endfor %}
 
+<h2>お気に入り登録した店舗</h2>
+  {% for favorite in favorite %}
+    <p>{{ favorite.restaurant.name }}</p>
+    <img src="{{ favorite.restaurant.img.url }}" style="width:100px height:100px;">
+    <p>{{ favorite.restaurant.price }}</p>
+    <p>{{ favorite.restaurant.address }}</p>
+    <p>{{ favorite.restaurant.category }}</p>
+  {% empty %}
+    <p>お気に入り店舗はありません。</p>
+  {% endfor %}
+<br>
 <a href="{% url 'list' %}">← 店舗一覧に戻る</a>
 {% endblock %}
