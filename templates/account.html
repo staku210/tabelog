@@ -18,6 +18,13 @@
   <p>✅ あなたは有料会員です！</p>
 {% endif %}
 
+{% if user.is_premium %}
+  <form action="{% url 'cancel_subscription' %}" method="post">
+    {% csrf_token %}
+    <button class="btn btn-danger" type="submit">有料会員を退会する</button>
+  </form>
+{% endif %}
+
 <h2>予約履歴一覧</h2>
 {% for reservation in reservations %}
   <div style="margin-bottom: 10px;">

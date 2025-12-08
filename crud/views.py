@@ -236,7 +236,6 @@ def account_view(request):
 #stripe checkoutセッションを作成
 @login_required
 def create_checkout_session(request):
-    YOUR_DOMAIN = 'http://localhost:8000'  # 本番では本当のURLに変更
 
     checkout_session = stripe.checkout.Session.create(
         customer_email=request.user.email,  # Stripeに顧客を自動作成
@@ -288,3 +287,17 @@ def stripe_webhook(request):
             print(f"⚠️ 該当ユーザーが見つかりません: {customer_email}")
 
     return HttpResponse(status=200)
+
+
+@login_required
+def cancel_subscription(request):
+    user = request.user
+    if user.stripe_customer_id:
+        # 顧客のサブスクリプション一覧を取得
+        subscriptions = stripe.Subscription.list(customer=user.stripe_customer_id)
+        for sub in subscriptions.data:
+            stripe.Subscription.delete(sub.id)  # サブスクリプションをキャンセル
+        # Django 側のフラグを更新
+        user.is_premium = False
+        user.save()
+    return redirect('account')  # アカウントページなどに戻る
