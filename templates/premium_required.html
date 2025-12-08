@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block title %}有料会員専用ページ{% endblock %}
+
+{% block main %}
+  <div style="text-align: center; padding: 50px;">
+    <h2>🔒 この機能は有料会員限定です</h2>
+    <a href="{% url 'account' %}" class="btn btn-primary">アカウントページへ</a>
+  </div>
+{% endblock %}

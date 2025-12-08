@@ -13,6 +13,8 @@ from .forms import ReviewForm
 from django.conf import settings
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from .utils import premium_required
+from django.utils.decorators import method_decorator
 
 stripe.api_key=settings.STRIPE_SECRET_KEY
 
@@ -116,6 +118,7 @@ def password_reset_view(request):
 
 
 @login_required
+@premium_required
 def restaurant_review(request,restaurant_id):
      restaurant=get_object_or_404(Restaurant,id=restaurant_id)
      reviews=restaurant.reviews.all()
@@ -138,6 +141,7 @@ def restaurant_review(request,restaurant_id):
     })
 
 
+@method_decorator([login_required, premium_required], name='dispatch')
 class ReviewUpdateView(UpdateView):
     model=Review
     form_class=ReviewForm
@@ -151,6 +155,7 @@ class ReviewUpdateView(UpdateView):
         qs=super().get_queryset()
         return qs.filter(user=self.request.user)
 
+@method_decorator([login_required, premium_required], name='dispatch')
 class ReviewDeleteView(DeleteView):
     model=Review
     template_name="review_delete.html"
@@ -164,6 +169,7 @@ class ReviewDeleteView(DeleteView):
 
 
 @login_required
+@premium_required
 def reservation(request,restaurant_id):
     restaurant=get_object_or_404(Restaurant,id=restaurant_id)
 
@@ -179,9 +185,11 @@ def reservation(request,restaurant_id):
         form = ReservationForm()
     return render(request, 'reservation.html', {'form': form,'restaurant':restaurant})
 
+@premium_required
 def reservation_success(request):
     return render(request, 'reservation_success.html')
 
+@method_decorator([login_required, premium_required], name='dispatch')
 class ReservationDeleteView(DeleteView):
     model=Reservation
     template_name='reservation_delete.html'
@@ -212,6 +220,7 @@ def search_view(request):
 
 
 @login_required
+@premium_required
 def toggle_favorite(request, restaurant_id):
     restaurant = get_object_or_404(Restaurant, id=restaurant_id)
     favorite, created = Favorite.objects.get_or_create(user=request.user, restaurant=restaurant)
@@ -247,8 +256,8 @@ def create_checkout_session(request):
             },
         ],
         mode='subscription',
-        success_url=YOUR_DOMAIN + '/success/',
-        cancel_url=YOUR_DOMAIN + '/cancel/',
+        success_url=settings.YOUR_DOMAIN + '/success/',
+        cancel_url=settings.YOUR_DOMAIN + '/cancel/',
     )
     return redirect(checkout_session.url)
 
@@ -290,6 +299,7 @@ def stripe_webhook(request):
 
 
 @login_required
+@premium_required
 def cancel_subscription(request):
     user = request.user
     if user.stripe_customer_id:
